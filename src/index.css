@@ -34,3 +34,51 @@ body {
 .border-none-custom {
   border: none !important;
 }
+
+
+/* Custom Toast Styles */
+/* Toastify Toast Styles */
+.custom-toast {
+  border-radius: 12px !important;
+  /* More rounded corners */
+  padding: 8px 16px !important;
+  /* Reduced padding */
+  min-height: 40px !important;
+  /* Smaller height */
+  box-shadow: 0 4px 10px rgba(213, 29, 29, 0.1) !important;
+  /* Soft shadow */
+  transition: transform 0.6s opacity 0.6s ease-in-out !important;
+  /* Smooth transition */
+  width: 300px !important;
+  
+}
+
+/* Custom animation for toast entering */
+.Toastify__toast-container--right .Toastify__toast {
+  animation: slideInFromRight 0.6s forwards;
+}
+
+/* Add margin only for the bottom-most toast */
+.Toastify__toast-container .Toastify__toast:last-child {
+  margin-bottom: 20px !important;
+}
+
+/* Slide in animation from the right */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Optional: Customize Toast Body */
+.custom-toast-body {
+  font-size: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
