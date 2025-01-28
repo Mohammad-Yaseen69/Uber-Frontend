@@ -4,9 +4,9 @@ import { fetchData } from "../apis/api"
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const OtpForm = ({ data }) => {
+const OtpForm = ({ data, type = "users"}) => {
     const [inputs, setInputs] = useState(["", "", "", "", ""]);
-    const [currentInput, setCurrentInput] = useState(0);  // Start from 0
+    const [currentInput, setCurrentInput] = useState(0); 
     const [verification, setVerification] = useState(false)
     const [isCorrect, setIsCorrect] = useState(false)
     const [disabled, setDisabled] = useState(false)
@@ -50,8 +50,10 @@ const OtpForm = ({ data }) => {
             }
         }
 
+        console.log(obj)
+
         const loadingToastId = toast.loading("Loading...", { containerId: "app-toast-container" });
-        const response = await fetchData("users/verifyOtp", {
+        const response = await fetchData(`${type}/verifyOtp`, {
             method: "POST",
             data: obj
         })
@@ -77,7 +79,6 @@ const OtpForm = ({ data }) => {
                 containerId: "app-toast-container",
                 style: { backgroundColor: "lightpink" }
             });
-            navigate("/add-info/user")
             setIsCorrect(false)
         }
 
