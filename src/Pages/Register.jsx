@@ -37,14 +37,14 @@ const Register = () => {
 
       console.log(response)
 
-      if (response.isResponseOk && response.data.statusCode == 200) {
+      if (response.isResponseOk) {
         toast.update(loadingToastId, {
           render: "Success! Please check you email for otp",
           type: 'success',
           isLoading: false,
           autoClose: 1900,
           containerId: "app-toast-container",
-          style: {backgroundColor: "lightgreen"}
+          style: { backgroundColor: "lightgreen" }
         });
         setTimeout(() => {
           setOtpSent(true)
@@ -57,7 +57,7 @@ const Register = () => {
           isLoading: false,
           autoClose: 1900,
           containerId: "app-toast-container",
-          style: {backgroundColor: "lightpink"}
+          style: { backgroundColor: "lightpink" }
         });
       }
 
@@ -192,7 +192,7 @@ const Register = () => {
           </form>
         </>
       }
-      {otpSent && <OtpForm />}
+      {otpSent && <OtpForm data={data} />}
     </div>
   )
 }

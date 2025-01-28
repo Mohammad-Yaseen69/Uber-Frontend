@@ -3,15 +3,15 @@ import { motion } from 'framer-motion';
 const SmileyFace = ({ input, currentInput, isCorrect, verification }) => {
   const offset = currentInput * 3.8;
 
-  const mouthStart = 37 + offset;
+  const mouthStart = 35 + offset;
   const mouthEnd = 47 + offset;
   const mouthControl = verification
     ? isCorrect
       ? 70
-      : 60
+      : 59
     : 65;
 
-  const mouthPath = `M${mouthStart} 65 Q ${50 + offset} ${mouthControl}, ${mouthEnd} 65`;
+  const mouthPath = `M${mouthStart} 65 Q ${45 + offset} ${mouthControl}, ${mouthEnd} 65`;
 
   return (
     <div className="flex justify-center items-center">
