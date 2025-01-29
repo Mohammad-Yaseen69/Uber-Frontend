@@ -3,13 +3,15 @@ import SmilyFace from "./SmilyFace"
 import { fetchData } from "../apis/api"
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { errorToastOpt, successToastOpt } from "../constant"
 
-const OtpForm = ({ data, type = "users"}) => {
+const OtpForm = ({ data, type = "users" }) => {
     const [inputs, setInputs] = useState(["", "", "", "", ""]);
-    const [currentInput, setCurrentInput] = useState(0); 
+    const [currentInput, setCurrentInput] = useState(0);
     const [verification, setVerification] = useState(false)
     const [isCorrect, setIsCorrect] = useState(false)
     const [disabled, setDisabled] = useState(false)
+    const [timer, setTimer] = useState(60)
     const navigate = useNavigate()
 
     const handleChange = (e, idx) => {
@@ -44,49 +46,67 @@ const OtpForm = ({ data, type = "users"}) => {
         setDisabled(true)
         const otp = inputs.join("");
         const obj = {
-            otp:Number(otp),
-            user:{
+            otp: Number(otp),
+            user: {
                 ...data
             }
         }
-
-        console.log(obj)
-
-        const loadingToastId = toast.loading("Loading...", { containerId: "app-toast-container" });
+        
         const response = await fetchData(`${type}/verifyOtp`, {
             method: "POST",
             data: obj
         })
-
+        setVerification(true)
         if (response.isResponseOk) {
-            toast.update(loadingToastId, {
-                render: "Account Created Successfully",
-                type: 'success',
-                isLoading: false,
-                autoClose: 1900,
-                containerId: "app-toast-container",
-                style: { backgroundColor: "lightgreen" }
-            });
+            toast.success(response.data?.message, successToastOpt);
 
             setIsCorrect(true)
+            setTimeout(() => {
+                setVerification(false)
+                navigate("/")
+            }, 2000)
         }
         else {
-            toast.update(loadingToastId, {
-                render: response.message || "Something went wrong",
-                type: 'error',
-                isLoading: false,
-                autoClose: 1900,
-                containerId: "app-toast-container",
-                style: { backgroundColor: "lightpink" }
-            });
+            toast.error(response.message, errorToastOpt);
             setIsCorrect(false)
+            setTimeout(() => {
+                setVerification(false)
+                setCurrentInput(1)
+            }, 2000)
         }
 
-        setVerification(true)
-        setDisabled(false)
 
+        setDisabled(false)
     };
 
+    useEffect(() => {
+        let timeout;
+        timeout = setTimeout(() => {
+            setTimer(timer - 1)
+        }, 1000)
+
+        if (timer === 0) {
+            clearTimeout(timeout)
+        }
+
+    }, [timer])
+
+
+    const handleResend = async () => {
+        const response = await fetchData(`${type}/resendOtp`, {
+            method: "POST",
+            data: { email: data.email }
+        })
+
+        if (response.isResponseOk) {
+            toast.success(response.data?.message, { containerId: "app-toast-container" });
+            setTimer(60)
+            setCurrentInput(0)
+        } else {
+            toast.error(response.message, { containerId: "app-toast-container" });
+
+        }
+    }
     return (
         <div className='flex items-center justify-center flex-col'>
 
@@ -109,8 +129,9 @@ const OtpForm = ({ data, type = "users"}) => {
             </div>
 
 
-            <button disabled={disabled} onClick={handleVerify} className="custom-shadow-2 bg-[#1fbad6] text-white px-5 py-2 rounded-[22px] mt-5">
-                Verify
+            {timer !== 0 ? <p className='mt-4'>Resent code in <span>{timer}</span> seconds</p> : <button onClick={handleResend} className='mt-4 font-bold'>Resend the code</button>}
+            <button disabled={disabled} onClick={handleVerify} className="custom-shadow-2 bg-[#1fbad6] text-white w-20 h-10 rounded-[22px] mt-5 flex justify-center items-center">
+                {!disabled ? "Verify" : <span className='loader'></span>}
             </button>
 
         </div>
