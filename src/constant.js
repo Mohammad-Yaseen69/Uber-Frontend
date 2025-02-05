@@ -11,5 +11,6 @@ export const errorToastOpt = {
     isLoading: false,
     autoClose: 1900,
     containerId: "app-toast-container",
-    style: { backgroundColor: "lightpink" }
+    style: { backgroundColor: "lightpink", color: "white" },
+    icon: { color: "white" }
 }

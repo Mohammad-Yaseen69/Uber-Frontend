@@ -59,11 +59,19 @@ const OtpForm = ({ data, type = "users" }) => {
         setVerification(true)
         if (response.isResponseOk) {
             toast.success(response.data?.message, successToastOpt);
-
+            
             setIsCorrect(true)
             setTimeout(() => {
                 setVerification(false)
-                navigate("/")
+                if(data.fullName && data.phoneNumber){
+                    localStorage.setItem("type", type)
+                    localStorage.setItem("loggedIn", true)
+                    navigate(`/set-info/${type}`)
+                }else{
+                    localStorage.setItem("type", type)
+                    localStorage.setItem("loggedIn", true)
+                    navigate("/")
+                }
             }, 2000)
         }
         else {

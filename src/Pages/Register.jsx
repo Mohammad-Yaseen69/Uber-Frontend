@@ -56,6 +56,7 @@ const Register = () => {
           });
           setTimeout(() => {
             setOtpSent(true)
+            
           }, 2000)
         }
         else {
