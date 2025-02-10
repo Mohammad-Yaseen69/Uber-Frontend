@@ -3,6 +3,8 @@ import './index.css';
 import App from './App.jsx';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import { DriverLogin, DriverRegister, Home, Login, Register, SetInfo } from './Pages';
+import {Provider} from "react-redux"
+import store from './store/store.js';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,5 +20,7 @@ const router = createBrowserRouter(
 );
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );

@@ -24,10 +24,10 @@ const App = () => {
         draggablePercent={60}
         pauseOnHover
         style={{
-          position: "absolute", // Ensure it aligns with the container
+          position: "absolute",
           bottom: 0,
           right: 0,
-          zIndex: 10, // Stay above other content inside the container
+          zIndex: 10,
           height: "fit-content"
         }}
         toastClassName="custom-toast"
