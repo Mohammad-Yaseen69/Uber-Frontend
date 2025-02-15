@@ -1,14 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const createSlice = createSlice({
+const driverSlive = createSlice({
     name: "driver",
     initialState: {
-        driverData: {}
+        driverData: {},
+        loading: true,
+        error: null
     },
     reducers: {
         login: (state, action) => {
-            state.driverData = action.payload
+            state.userData = action.payload.data;
+            state.error = action.payload.error;
+            state.loading = false;
         },
         logout: (state) => {
             state.driverData = {}
@@ -17,5 +21,5 @@ const createSlice = createSlice({
 })
 
 
-export const { login, logout } = createSlice.actions;
-export default createSlice.reducer;
+export const { login, logout } = driverSlive.actions;
+export default driverSlive.reducer;
