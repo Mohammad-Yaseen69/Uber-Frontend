@@ -5,11 +5,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      fontFamily: {
-        uber: ['UberMove', 'sans-serif']
-      }
-    },
+    extend: {},
   },
   plugins: [],
 }
