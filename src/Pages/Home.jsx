@@ -8,6 +8,7 @@ import { LocationInfo, VehicalSelectionBox, RideConfirmation, FindDriverPanel } 
 import { IoAirplane } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoArrowBack } from "react-icons/io5";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const Home = () => {
   const [isLoggedIn] = useState(document.cookie.includes('loggedIn=true'))
@@ -15,6 +16,7 @@ const Home = () => {
   const [pickUpField, setpickUpField] = useState("")
   const [selectedVehical, setSelectedVehical] = useState("car")
   const [destinationField, setDestinationField] = useState("")
+  const [driverFound, setDriverFound] = useState(false)
   const [confirmRide, setConfirmRide] = useState(false)
   const [confirmed, setConfirmed] = useState(false)
   const [destinations, setDestinations] = useState([
@@ -69,6 +71,8 @@ const Home = () => {
     }
   ])
 
+  const [openModal, setOpenModal] = useState(false)
+
   const handlePanelAnimations = () => {
     // Reset all panels
     gsap.to('.panel', { height: "0" })
@@ -83,8 +87,8 @@ const Home = () => {
     else if (confirmRide) {
       gsap.to('.confirm-panel', { height: "100%" })
     }
-    else if(confirmed){
-      gsap.to(".find-driver-panel", {height: "50%"})
+    else if (confirmed) {
+      gsap.to(".find-driver-panel", { height: "50%" })
     }
     else if (location.location && location.place) {
       gsap.to('.vehical-panel', { height: "62%" })
@@ -206,10 +210,13 @@ const Home = () => {
         </div>
       }
 
-     {confirmed &&
-      <div  className={`find-driver-panel ${classes}`}>
-        <FindDriverPanel rideData={vehicalData.find(v => v.type === selectedVehical)} />
-      </div>
+      {confirmed &&
+        <div className={`find-driver-panel ${classes}`}>
+          <FindDriverPanel
+            setOpenModal={setOpenModal}
+            rideData={vehicalData.find(v => v.type === selectedVehical)}
+          />
+        </div>
       }
 
 
@@ -223,6 +230,45 @@ const Home = () => {
           </Link>
         </div>)
       }
+
+
+      
+
+
+      {openModal && (
+        <div className="absolute inset-0 z-50 top-0  flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white m-2 p-6 rounded-lg shadow-lg w-80">
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400" />
+              <h3 className="mb-5 text-lg font-normal text-gray-500">
+                Are you sure you want to cancel the ride?
+              </h3>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={() => {
+                    setOpenModal(false)
+                    setConfirmed(false)
+                    setlocation({
+                      location: false,
+                      place: false
+                    })
+                    setConfirmRide(false)
+                  }}
+                  className="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition"
+                >
+                  Yes, Cancel
+                </button>
+                <button
+                  onClick={() => setOpenModal(false)}
+                  className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 transition"
+                >
+                  No, Keep
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
