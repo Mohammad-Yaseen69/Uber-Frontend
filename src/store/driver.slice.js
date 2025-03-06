@@ -10,7 +10,7 @@ const driverSlive = createSlice({
     },
     reducers: {
         login: (state, action) => {
-            state.userData = action.payload.data;
+            state.driverData = action.payload.data;
             state.error = action.payload.error;
             state.loading = false;
         },

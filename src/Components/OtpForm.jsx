@@ -79,7 +79,8 @@ const OtpForm = ({ data, type = "users" }) => {
             setIsCorrect(false)
             setTimeout(() => {
                 setVerification(false)
-                setCurrentInput(1)
+                setCurrentInput(0)
+                setInputs(["", "", "", "", ""])
             }, 2000)
         }
 

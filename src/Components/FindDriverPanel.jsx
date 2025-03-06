@@ -1,31 +1,27 @@
-import React, { useState } from "react";
-import "./FindDriverPanel.css";
+import React, { useEffect, useState } from 'react';
+import './FindDriverPanel.css';
 
+const FindDriverPanel = ({ rideData }) => {
+    const [dot, setDot] = useState(["."])
 
-const FindDriverPanel = ({ rideData, setOpenModal }) => {
+    useEffect(() => {
+        setTimeout(() => {
+            if(dot.length == 3){
+                setDot([''])
+            }else{
+                setDot(dot.push("."))
+            }
+        } ,300)
+    },[dot])
 
     return (
-        <div className="find-driver-panel-content ">
-            <h2 className="font-semibold mt-3 px-3 text-xl">
-                Finding a Driver<span className="dot-animation"></span>
-            </h2>
+        <div className="find-driver-panel-content">
+            <h2 className='font-semibold mt-3 text-xl'>Finding a Driver{dot}</h2>
             <div className="pulse-container">
-                <img
-                    style={{ mixBlendMode: "darken" }}
-                    src={rideData.img}
-                    alt={rideData.heading}
-                    className="vehicle-img"
-                />
+                <img src={rideData.img} alt={rideData.heading} className="vehicle-img" />
                 <div className="pulse"></div>
                 <div className="pulse pulse2"></div>
             </div>
-
-            <button
-                onClick={() => setOpenModal(true)}
-                className="cursor-pointer w-full bg-red-500 text-white mb-3 rounded-lg text-center font-bold p-2 py-3"
-            >
-                Cancel
-            </button>            
         </div>
     );
 };
